@@ -379,7 +379,7 @@ class MyPyGame(object):
             self.button((self.display_width/2)-100,(self.display_height/2)-50,sort1,sort,"sort")
             pygame.display.update()
         
-    def game(self,x,y):###########################################################################################################################################################################################################
+    def game(self,x,y):
         self.sort_list=[]
         exitGame=False
         self.t1=time.time()
@@ -623,6 +623,7 @@ class Gui():
         muteframe=Frame(self.root)
         subtitle_frame1=Frame(self.root)
         fullframe=Frame(self.root)
+        unmuteframe=Frame(self.root)
         setvolume=Frame(self.root)
         backframe=Frame(self.root)
 
@@ -644,6 +645,7 @@ class Gui():
         muteframe.pack(side=TOP)
         unmuteframe.pack(side=TOP)
         setvolume.pack(side=TOP)
+        backframe.pack(side=TOP)
         
         
         checkbox_frame1.pack(side=LEFT)
@@ -656,9 +658,10 @@ class Gui():
         muteframe.pack(side=RIGHT)
         unmuteframe.pack(side=RIGHT)
         setvolume.pack(side=RIGHT)
+        backframe.pack(side=RIGHT)
 
         
-        L1 = Label(title_frame, text="Choose what to search for and how much time is it given ")
+        L1 = Label(title_frame, text="Choose what to search for and how much time it is given ")
         L1.pack(side=TOP)
         L2 = Label(textbox_frame,text='Time')
         L2.pack(side=LEFT)
@@ -666,6 +669,8 @@ class Gui():
         L3.pack(side=LEFT)
         L4 = Label(time_frame1,text='Seconds:')
         L4.pack(side=LEFT)
+        L6 = Label(setvolume,text=' Set volume between 1 and 10')
+        L6.pack(side=LEFT)
 
         self.CheckVar1 = IntVar()
         self.CheckVar2 = IntVar()
@@ -721,8 +726,6 @@ class Gui():
         
         L6=Label(checkbox_frame2,text='Colours to be found:')
         L6.pack(side=TOP)
-        L7 = Label(setvolume,text=' Set volume between 1 and 10')
-        L7.pack(side=LEFT)
         
         C4 = Checkbutton(checkbox_frame2, text = "Blue", variable = self.CheckVar4, onvalue = 1, offvalue = 0, height=3,  width = 20)
         C5 = Checkbutton(checkbox_frame2, text = "Red", variable = self.CheckVar5, onvalue = 1, offvalue = 0, height=3,  width = 20)
@@ -748,13 +751,17 @@ class Gui():
         self.seconds=Entry(time_frame1,bd=3)
         self.minutes.pack(side=LEFT,expand=True,fill=BOTH)
         self.seconds.pack(side=LEFT,expand=True,fill=BOTH)
+        self.volume=Entry(setvolume,bd=3)
+        self.volume.pack(side=RIGHT,expand=True,fill=BOTH)
 
     def music(self):
         pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
         pygame.mixer.music.load("Background Music.mp3")
         pygame.mixer.music.play()
+
     def nomusic(self):
         pygame.mixer.music.stop()
+        
        
     def getTextBoxInput(self):
         '''Takes all inputs from input window. Calls CheckInput and passes all inputs.'''
@@ -776,14 +783,14 @@ class Gui():
             inputs = 0
         if inputs2 == "":
             inputs2 = 0
-        self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input)
-    def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input ):
+        self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input,volumeinput)
+    def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input,volumeinput):
         try:
             IntMins=float(minutes)
             IntSec=float(sec)
+            volume=int(volumeinput)
             global user_input
             user_input= (IntMins,IntSec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input)
-            volume=int(volumeinput)
             print(volume)
             if volume == 0:
                 pygame.mixer.music.set_volume(0)
@@ -810,6 +817,7 @@ class Gui():
             else:
                 print("Incorrect volume input setting volume to default 1")
                 pygame.mixer.music.set_volume(1)
+
             if IntMins<0:
                 messagebox.showerror('Error','Must be positive')
 
