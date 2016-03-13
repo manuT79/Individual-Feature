@@ -623,7 +623,7 @@ class Gui():
         muteframe=Frame(self.root)
         subtitle_frame1=Frame(self.root)
         fullframe=Frame(self.root)
-        unmuteframe=Frame(self.root)
+        setvolume=Frame(self.root)
         backframe=Frame(self.root)
 
         checkbox_frame1=Frame(checkboxframe)
@@ -643,7 +643,7 @@ class Gui():
         subtitle_frame1.pack(side=TOP)
         muteframe.pack(side=TOP)
         unmuteframe.pack(side=TOP)
-        backframe.pack(side=TOP)
+        setvolume.pack(side=TOP)
         
         
         checkbox_frame1.pack(side=LEFT)
@@ -655,7 +655,7 @@ class Gui():
         subtitle_frame1.pack(side=RIGHT)
         muteframe.pack(side=RIGHT)
         unmuteframe.pack(side=RIGHT)
-        backframe.pack(side=RIGHT)
+        setvolume.pack(side=RIGHT)
 
         
         L1 = Label(title_frame, text="Choose what to search for and how much time is it given ")
@@ -721,6 +721,8 @@ class Gui():
         
         L6=Label(checkbox_frame2,text='Colours to be found:')
         L6.pack(side=TOP)
+        L7 = Label(setvolume,text=' Set volume between 1 and 10')
+        L7.pack(side=LEFT)
         
         C4 = Checkbutton(checkbox_frame2, text = "Blue", variable = self.CheckVar4, onvalue = 1, offvalue = 0, height=3,  width = 20)
         C5 = Checkbutton(checkbox_frame2, text = "Red", variable = self.CheckVar5, onvalue = 1, offvalue = 0, height=3,  width = 20)
@@ -769,21 +771,45 @@ class Gui():
         ship1input=self.CheckVar7.get()
         ship2input=self.CheckVar8.get()
         ship3input=self.CheckVar9.get()
+        volumeinput=self.volume.get()
         if inputs == "":
             inputs = 0
         if inputs2 == "":
             inputs2 = 0
         self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input)
     def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input ):
-        '''Takes 11 inputs, converts the time inputs into int,defines global variable with
-        all input values within it. Makes sure that it is a maximum time value of 6 minutes.
-        Calls CheckCheckBox function if valid time inputs, else prints to console.'''
         try:
             IntMins=float(minutes)
             IntSec=float(sec)
             global user_input
             user_input= (IntMins,IntSec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput,ship1input,ship2input,ship3input)
-
+            volume=int(volumeinput)
+            print(volume)
+            if volume == 0:
+                pygame.mixer.music.set_volume(0)
+            elif volume == 1:
+                pygame.mixer.music.set_volume(0.1)
+            elif volume == 2:
+                pygame.mixer.music.set_volume(0.2)
+            elif volume == 3:
+                pygame.mixer.music.set_volume(0.3)
+            elif volume == 4:
+                pygame.mixer.music.set_volume(0.4)
+            elif volume == 5:
+                pygame.mixer.music.set_volume(0.5)
+            elif volume == 6:
+                pygame.mixer.music.set_volume(0.6)
+            elif volume == 7:
+                pygame.mixer.music.set_volume(0.7)
+            elif volume == 8:
+                pygame.mixer.music.set_volume(0.8)
+            elif volume == 9:
+                pygame.mixer.music.set_volume(0.9)
+            elif volume == 10:
+                pygame.mixer.music.set_volume(1)
+            else:
+                print("Incorrect volume input setting volume to default 1")
+                pygame.mixer.music.set_volume(1)
             if IntMins<0:
                 messagebox.showerror('Error','Must be positive')
 
